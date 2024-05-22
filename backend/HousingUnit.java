@@ -25,19 +25,6 @@ public class HousingUnit {
         return rooms;
     }
 
-    public boolean editRoom(Room room, int newRoomNumber, int newCapacity, boolean newHasAC, boolean newIsOccupied, boolean newIsAvailable, boolean newIsReserved) {
-        if (rooms.contains(room)) {
-            room.setRoomNumber(newRoomNumber);
-            room.setCapacity(newCapacity);
-            room.setHasAC(newHasAC);
-            room.setIsOccupied(newIsOccupied);
-            room.setIsAvailable(newIsAvailable);
-            room.setIsReserved(newIsReserved);
-            return true;
-        }
-        return false;
-    }
-
     public Room getRoom(int roomNumber) {
         for (Room room : rooms) {
             if (room.getRoomNumber() == roomNumber) {
