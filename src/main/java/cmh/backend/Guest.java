@@ -1,4 +1,5 @@
-package backend;
+package src.main.java.cmh.backend;
+
 
 
 public class Guest {
@@ -27,7 +28,7 @@ public class Guest {
 
     public String getOtherInfo() {
         if (this.otherInfo==null){
-            return "No extra info associated with the guest"
+            return "No extra info associated with the guest";
         }
         return otherInfo;
     }

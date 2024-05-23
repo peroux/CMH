@@ -1,4 +1,5 @@
-package backend;
+package src.main.java.cmh.backend;
+
 
 import java.util.List;
 import java.util.ArrayList;

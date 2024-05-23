@@ -1,4 +1,5 @@
-package backend;
+package src.main.java.cmh.backend;
+
 
 
 //add day in day out
@@ -10,6 +11,8 @@ public class Room {
     private boolean isOccupied;
     private boolean isAvailable;
     private boolean isReserved;
+    private boolean privBath;
+    private String phoneNumber;
 
     public Room(int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
         this.roomNumber = roomNumber;
@@ -18,8 +21,8 @@ public class Room {
         this.isOccupied = false;
         this.isAvailable = true;
         this.isReserved = false;
-        this.privBath= privBath;
-        this.phoneNumber=phoneNumber;
+        this.privBath = privBath;
+        this.phoneNumber = phoneNumber;
 
     }
     public String getPhoneNumber(){
@@ -91,8 +94,8 @@ public class Room {
             room.setIsOccupied(newIsOccupied);
             room.setIsAvailable(newIsAvailable);
             room.setIsReserved(newIsReserved);
-            room.setPrivBath(privBath)
-            room.setPhoneNumber(phoneNumber)
+            room.setPrivBath(privBath);
+            room.setPhoneNumber(phoneNumber);
             return true;
     }
 }
