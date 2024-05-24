@@ -1,6 +1,7 @@
 package src.main.java.cmh.backend;
 
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class Guest {
     private int gender; // 0 for men, 1 for women, 2 for other
@@ -8,6 +9,7 @@ public class Guest {
     private String name;
     private String key;
     private String otherInfo;
+    private static List<Guest> allGuests = new ArrayList<Guest>();
 
 //non extra info costructior for normal guests 
     public Guest(int gender, boolean staff, String name, String key) {
@@ -15,6 +17,8 @@ public class Guest {
         this.staff = staff;
         this.name = name;
         this.key = key;
+        allGuests.add(this);
+
     }
 //extra info for the "special" guests
      public Guest(int gender, boolean staff, String name, String key, String otherInfo) {
@@ -73,4 +77,32 @@ public class Guest {
     public void setKey(String key) {
         this.key = key;
     }
+
+    // Getter and Setter for allGuests
+    public static List<Guest> getAllGuests() {
+        return allGuests;
+    }
+
+    public static void setAllGuests(List<Guest> allGuests) {
+        Guest.allGuests = allGuests;
+    }
+
+    public static void removeGuest(int index) {
+        allGuests.remove(index);
+    }
+
+    public static int getIndexByGuest(Guest guest) {
+        List<Group> allGroups = Group.getGroups();
+        for (Group group : allGroups) {
+            if (group.getGroup().contains(guest)) {
+                return allGroups.indexOf(group);
+            }
+        }
+        return -1;
+    }
+
+    public static Guest getGuestByIndex(int index){
+        return allGuests.get(index);
+    }
+
 }

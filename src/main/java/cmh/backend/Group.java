@@ -6,9 +6,11 @@ import java.util.List;
 
 public class Group {
     private List<Guest> group;
+    private static List<Group> allGroups = new ArrayList<Group>();
 
     public Group() {
         group = new ArrayList<Guest>();
+        allGroups.add(this);
     }
 
     public void addGuest(Guest guest) {
@@ -38,5 +40,18 @@ public class Group {
     public void clear() {
         group.clear();
     }
+
+    public static List<Group> getGroups() {
+        return allGroups;
+    }
+
+    public static Group getGroupByIndex(int index) {
+        return allGroups.get(index);
+    }
+
+    public static void removeGroup(int index) {
+        allGroups.remove(index);
+    }
+
 }
 

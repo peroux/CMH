@@ -1,6 +1,7 @@
 package src.main.java.cmh.backend;
 
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class User{
     private String username;
@@ -9,6 +10,7 @@ public class User{
     private String name;
     private String phoneNumber;
     private boolean isAdmin;
+    private static List<User> users = new ArrayList<User>();
 
     public User(String username, String password, String email, String name, String phoneNumber, boolean isAdmin){
         this.username = username;
@@ -17,6 +19,7 @@ public class User{
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.isAdmin = isAdmin;
+        users.add(this);
     }
 
     public String getUsername(){
@@ -65,6 +68,23 @@ public class User{
 
     public void setIsAdmin(boolean isAdmin){
         this.isAdmin = isAdmin;
+    }
+
+    public static List<User> getUsers(){
+        return users;
+    }
+
+    public static void setUsers(List<User> users){
+        User.users = users;
+    }
+
+    public static User getUser(String username){
+        for (User user : users){
+            if (user.getUsername().equals(username)){
+                return user;
+            }
+        }
+        return null;
     }
 
 }

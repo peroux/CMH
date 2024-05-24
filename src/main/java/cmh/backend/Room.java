@@ -1,5 +1,9 @@
 package src.main.java.cmh.backend;
 
+import java.util.List;
+//import java.util.ArrayList;
+//import java.util.Date;
+
 
 
 //add day in day out
@@ -13,6 +17,9 @@ public class Room {
     private boolean isReserved;
     private boolean privBath;
     private String phoneNumber;
+    //private Date checkIn;
+    //private Date checkOut;
+    private List<Room> rooms;
 
     public Room(int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
         this.roomNumber = roomNumber;
@@ -23,6 +30,7 @@ public class Room {
         this.isReserved = false;
         this.privBath = privBath;
         this.phoneNumber = phoneNumber;
+        //rooms.add(this);
 
     }
     public String getPhoneNumber(){
@@ -97,5 +105,10 @@ public class Room {
             room.setPrivBath(privBath);
             room.setPhoneNumber(phoneNumber);
             return true;
+    }
+
+
+    public List<Room> getRooms() {
+        return rooms;
     }
 }

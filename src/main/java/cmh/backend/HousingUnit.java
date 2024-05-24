@@ -7,11 +7,13 @@ import java.util.ArrayList;
 public class HousingUnit {
     private String name;
     private List<Room> rooms;
+    private static List<HousingUnit> allHousingUnits = new ArrayList<HousingUnit>();
 
 
     public HousingUnit(String name) {
         this.name = name;
         this.rooms = new ArrayList<Room>();
+        allHousingUnits.add(this);
     }
 
     public void addRoom(Room room) {
@@ -41,6 +43,10 @@ public class HousingUnit {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static List<HousingUnit> getAllHousingUnits() {
+        return allHousingUnits;
     }
 
 }
