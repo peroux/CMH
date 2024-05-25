@@ -3,11 +3,13 @@ package src.main.java.cmh.frontend;
 import java.util.Scanner;
 import src.main.java.cmh.backend.*;
 
+
 public class Driver {
     public static void main(String[] args) {
         intializeFakeTrialData();
+        Scanner s = new Scanner(System.in);
         while(true){
-            Scanner s = new Scanner(System.in);
+            clearScreen();
             if(UserInteraction.getCurrentlyLoggedInUser() == null) {
                 topMenu(s);
             } else {
@@ -18,7 +20,7 @@ public class Driver {
 public static void intializeFakeTrialData(){
     User user1 = new User("Peter", "pass", "pheroux001@csbsju.edu", "Peter Heroux", "320-290-1234", true);
     User user2 = new User("John", "word", "john@gmail.com", "John Doe", "320-240-1244", false);
-    User user3 = new User("aidan", "secure", "amath001@csbsju.edu", "Aidan Math", "320-230-1214", true);
+    User user3 = new User("Aidan", "secure", "amath001@csbsju.edu", "Aidan Math", "320-230-1214", true);
 
     
 
@@ -101,7 +103,7 @@ public static void intializeFakeTrialData(){
 
         switch (choice) {
             case 1:
-                //viewHousingUnits();
+                viewHousingUnits();
                 break;
             case 2:
                 //viewGroups();
@@ -129,6 +131,15 @@ public static void intializeFakeTrialData(){
         }
     }
 
+    public static void viewHousingUnits(){
+        clearScreen();
+        printHeader("Housing Units");
+        for(HousingUnit unit : UserInteraction.getHousingUnits()){
+            unit.toStringHousingDetail(unit);
+        }
+        returnOptions(new Scanner(System.in));
+    }
+
 	/**
      * From CMC By: Peter Ohmann
 	 * Prints a header with a given title.
@@ -143,6 +154,27 @@ public static void intializeFakeTrialData(){
 		System.out.println(dashes);
 		System.out.println(title);
 		System.out.println(dashes);
+    }
+
+    public static void clearScreen(){
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    public static void returnOptions(Scanner s){
+        System.out.println("\n\n\n");
+        System.out.println("1. Return to main menu");
+        System.out.println("2. Log out");
+        System.out.print("Enter a number: ");
+        int choice = s.nextInt();
+        s.nextLine();
+        if(choice == 1){
+            return;
+        } else if(choice == 2){
+            UserInteraction.logout();
+        } else {
+            System.out.println("Invalid choice... returning to main menu.");
+        }
     }
 }
 

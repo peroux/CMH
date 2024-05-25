@@ -49,4 +49,19 @@ public class HousingUnit {
         return allHousingUnits;
     }
 
+    public void toStringHousingDetail(HousingUnit unit) {
+        String markers = "";
+       for (int i = 0; i < unit.getName().length(); i++) {
+        markers += "~";
+       }
+        System.out.println(markers);
+        System.out.println(unit.getName());
+        System.out.println(markers);
+        for (Room room : unit.getRooms()) {
+            System.out.println("Room " + room.getRoomNumber() + "(holds " + room.getCapacity() + "): " + (room.getHasAC() ? "Has AC" : "No AC") + (room.getPrivBath() ? ", Private Bath" : "") + (room.getIsOccupied() ? ", Occupied" : "") + (room.getIsReserved() ? ", Reserved" : ""));
+            
+        }
+
+    }
+
 }

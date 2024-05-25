@@ -130,6 +130,13 @@ public static boolean createUser(String username, String password, String email,
         return null;
     }
 
+    public static List<HousingUnit> getHousingUnits() {
+        if(currentlyLoggedInUser == null) {
+            return null;
+        }
+        return HousingUnit.getAllHousingUnits();
+    }
+
     public static void logout() {
         currentlyLoggedInUser = null;
     }

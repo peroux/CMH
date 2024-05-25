@@ -1,7 +1,7 @@
 package src.main.java.cmh.backend;
 
 import java.util.List;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 //import java.util.Date;
 
 
@@ -19,7 +19,7 @@ public class Room {
     private String phoneNumber;
     //private Date checkIn;
     //private Date checkOut;
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<Room>();
 
     public Room(int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
         this.roomNumber = roomNumber;
@@ -30,7 +30,7 @@ public class Room {
         this.isReserved = false;
         this.privBath = privBath;
         this.phoneNumber = phoneNumber;
-        //rooms.add(this);
+        rooms.add(this);
 
     }
     public String getPhoneNumber(){
