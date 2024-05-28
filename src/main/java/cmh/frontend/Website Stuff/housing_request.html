@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housing Request Form</title>
+</head>
+<body>
+    <h1>Housing Request Form</h1>
+    <form action="guest_details.html" method="POST" id="housingForm">
+
+        <label for ="group"> Group Name</label>
+        <input type ="name" id="name" name="name" required><br><br>
+        <label for="guests">Number of Guests:</label>
+        <input type="number" id="guests" name="guests" required><br><br>
+
+        <label for="dateIn">Date In:</label>
+        <input type="date" id="dateIn" name="dateIn" required><br><br>
+
+        <label for="dateOut">Date Out:</label>
+        <input type="date" id="dateOut" name="dateOut" required><br><br>
+
+        <input type="submit" value="Next" onclick="addGroupInfo()">
+    </form>
+</body>
+<script src ="script.js"></script>
+</html>
