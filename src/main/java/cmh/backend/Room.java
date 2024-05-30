@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 
 
-//add day in day out
+//add day in day out, move to group
 
 public class Room {
     private int roomNumber;

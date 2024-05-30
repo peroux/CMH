@@ -3,11 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Welcome to St. John's Housing</title>
+    <style>
+        body {
+            font-family:Times New Roman, serif;
+            margin: 0;
+            padding: 1px;
+            background-color: #f0f0f0; /* Background color for the main content area */
+         
+        }
+        .background-image {
+            background-image: url('https://www.unigo.com/wp-content/uploads/2020/03/saint-johns-university-174792-xlarge_building.jpg');
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+             /* Adjust this value to fit your header height */
+            left: 0;
+            width: 100%;
+            height: calc(100%); /* Adjust to fit the header height */
+            z-index: -1; /* Ensure the background image is behind other content */
+        }
+        header {
+            background-color: rgba(190, 15, 52, 0.8);
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0px 2px 5px hsl(0, 0%, 0%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1; /* Ensure the header is above the background image */
+            text-shadow: -0.4px 0.4px 0 hwb(0 0% 100%), 0.4px -0.4px 0 #000000, 1px .25px 0 hsl(0, 100%, 100%), 0.4px 0.4px 0 hsl(0, 0%, 100%);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .phone-number {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .extra-info {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 10px 0;
+            font-size: 20px;
+            color: #333; /* Adjust the color of the text */
+        }
+       
+        button {
+            background-color: #7BAFD4;
+            color: hsl(0, 0%, 0%);
+            border: 2px solid hsl(0, 0%, 0%);
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            font-family:Times New Roman, serif;
+        }
+        
+    </style>
 </head>
 <body>
-    <h1>Housing Request Information</h1>
-    <p>This page contains information about housing requests.</p>
-    <a href="housing_request.html">New Housing Request</a>
+    <div class="background-image"></div>
+    <header>
+        <h1>Welcome to St. John's Event Housing</h1>
+        <a href="housing_request.html">
+            <button>Start Housing Request</button>
+          </a>
+    </header>
+    <div class="footer">
+        <p>Contact us: Phone: (320) 363-2240 | Email: events@csbsju.edu</p>
+    </div>
+    
 </body>
 </html>

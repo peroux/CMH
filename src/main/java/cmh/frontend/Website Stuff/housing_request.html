@@ -3,25 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Housing Request Form</title>
+    <title>New Housing Request</title>
+    <style>
+        body {
+            font-family:Times New Roman, serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+             /* Double border with slight opacity */
+            z-index: -2;
+            
+            
+           
+        }
+        .background-image {
+            background-image: url('https://pbs.twimg.com/media/EWstZIgU4AUZGqp.jpg:large'); /* Full path to your local image */
+            background-position: center;
+            position: fixed;
+             /* Adjust this value to fit your header height */
+            left: 0;
+            width: 100%;
+            height: calc(100%); /* Adjust to fit the header height */
+            background-size: cover;
+            background-repeat: no-repeat; /* Do not repeat the background image */
+            z-index: -1; /* Ensure the background image is behind other content */
+            
+        }
+        form {
+            border: 10px double #000000b3;
+            background-color: hsl(0, 0%, 89%);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.8);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: hsl(210, 2%, 47%);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Housing Request Form</h1>
+    <div class="background-image"></div>
     <form action="guest_details.html" method="POST" id="housingForm">
-
-        <label for ="group"> Group Name</label>
-        <input type ="name" id="name" name="name" required><br><br>
+        <h1>New Housing Request</h1>
+        <label for="groupName">Group Name:</label>
+        <input type="text" id="groupName" name="groupName" required><br><br>
+        
         <label for="guests">Number of Guests:</label>
         <input type="number" id="guests" name="guests" required><br><br>
-
-        <label for="dateIn">Date In:</label>
+        
+        <label for="dateIn">Date In(Default):</label>
         <input type="date" id="dateIn" name="dateIn" required><br><br>
-
-        <label for="dateOut">Date Out:</label>
+        
+        <label for="dateOut">Date Out(Default):</label>
         <input type="date" id="dateOut" name="dateOut" required><br><br>
-
-        <input type="submit" value="Next" onclick="addGroupInfo()">
+        <a href="guest_details.html">
+            <button>Continue Housing Request</button>
+          </a>
     </form>
 </body>
-<script src ="script.js"></script>
 </html>
