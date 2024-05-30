@@ -64,11 +64,11 @@ public static boolean createUser(String username, String password, String email,
         return Guest.getAllGuests();
     }
 
-    public static boolean createGroup() {
+    public static boolean createGroup(String name) {
         if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
             return false;
         }
-        Group newGroup = new Group();
+        Group newGroup = new Group(name);
         return newGroup != null;
     }
 
