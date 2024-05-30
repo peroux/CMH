@@ -2,6 +2,7 @@ package src.main.java.cmh.backend;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Guest {
     private int gender; // 0 for men, 1 for women, 2 for other
@@ -10,25 +11,45 @@ public class Guest {
     private String key;
     private String otherInfo;
     private static List<Guest> allGuests = new ArrayList<Guest>();
+    private Date checkIn;
+    private Date checkOut;
 
-//non extra info costructior for normal guests 
-    public Guest(int gender, boolean staff, String name, String key) {
+// costructor for guests 
+    public Guest(int gender, boolean staff, String name, String key, Date checkIn, Date checkOut) {
         this.gender = gender;
         this.staff = staff;
         this.name = name;
         this.key = key;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
         allGuests.add(this);
-
     }
-//extra info for the "special" guests
-     public Guest(int gender, boolean staff, String name, String key, String otherInfo) {
+// constructor for guests with other info
+     public Guest(int gender, boolean staff, String name, String key, Date checkIn, Date checkOut, String otherInfo) {
         this.gender = gender;
         this.staff = staff;
         this.name = name;
         this.key = key;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
         this.otherInfo=otherInfo;
     }
 
+    public Date getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(Date checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public Date getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(Date checkOut) {
+        this.checkOut = checkOut;
+    }
 
     public String getOtherInfo() {
         if (this.otherInfo==null){
@@ -103,6 +124,10 @@ public class Guest {
 
     public static Guest getGuestByIndex(int index){
         return allGuests.get(index);
+    }
+
+    public String toString() {
+        return "\nName: " + this.name + "\nGender: " + this.gender + ", Staff: " + this.staff + ", Key: " + this.key + "\nCheck In: " + this.checkIn + "\nCheck Out: " + this.checkOut;
     }
 
 }

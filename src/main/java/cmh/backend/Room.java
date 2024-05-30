@@ -17,17 +17,15 @@ public class Room {
     private boolean isReserved;
     private boolean privBath;
     private String phoneNumber;
-    //private Date checkIn;
-    //private Date checkOut;
     private List<Room> rooms = new ArrayList<Room>();
 
     public Room(int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
         this.roomNumber = roomNumber;
         this.capacity = capacity;
         this.hasAC = hasAC;
-        this.isOccupied = false;
-        this.isAvailable = true;
-        this.isReserved = false;
+        this.isOccupied = isOccupied;
+        this.isAvailable = isAvailable;
+        this.isReserved = isReserved;
         this.privBath = privBath;
         this.phoneNumber = phoneNumber;
         rooms.add(this);

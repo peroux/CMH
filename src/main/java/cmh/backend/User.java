@@ -87,4 +87,8 @@ public class User{
         return null;
     }
 
+    public String toString(){
+        return "Username: " + this.username + "\nPassword: " + this.password + "\nEmail: " + this.email + "\nName: " + this.name + "\nPhone Number: " + this.phoneNumber + "\nIs Admin: " + this.isAdmin;
+    }
+
 }

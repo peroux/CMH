@@ -7,11 +7,13 @@ import java.util.ArrayList;
 public class HousingUnit {
     private String name;
     private List<Room> rooms;
+    private String prefix;
     private static List<HousingUnit> allHousingUnits = new ArrayList<HousingUnit>();
 
 
-    public HousingUnit(String name) {
+    public HousingUnit(String name, String prefix) {
         this.name = name;
+        this.prefix = prefix;
         this.rooms = new ArrayList<Room>();
         allHousingUnits.add(this);
     }
@@ -45,6 +47,14 @@ public class HousingUnit {
         this.name = name;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     public static List<HousingUnit> getAllHousingUnits() {
         return allHousingUnits;
     }
@@ -58,7 +68,7 @@ public class HousingUnit {
         System.out.println(unit.getName());
         System.out.println(markers);
         for (Room room : unit.getRooms()) {
-            System.out.println("Room " + room.getRoomNumber() + "(holds " + room.getCapacity() + "): " + (room.getHasAC() ? "Has AC" : "No AC") + (room.getPrivBath() ? ", Private Bath" : "") + (room.getIsOccupied() ? ", Occupied" : "") + (room.getIsReserved() ? ", Reserved" : ""));
+            System.out.println("Room " + unit.getPrefix() + room.getRoomNumber() + " (holds " + room.getCapacity() + "): " + (room.getHasAC() ? "Has AC" : "No AC") + (room.getPrivBath() ? ", Private Bath" : "") + (room.getIsOccupied() ? ", Occupied" : "") + (room.getIsReserved() ? ", Reserved" : ""));
             
         }
 

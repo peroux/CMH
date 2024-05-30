@@ -2,7 +2,7 @@ package src.main.java.cmh.frontend;
 
 import java.util.Scanner;
 import src.main.java.cmh.backend.*;
-
+import java.util.Date;
 
 public class Driver {
     public static void main(String[] args) {
@@ -18,6 +18,10 @@ public class Driver {
         }
     }
 public static void intializeFakeTrialData(){
+
+    Date currentDate = new Date();
+    Date futureDate = new Date(currentDate.getTime() + 1000000000);
+
     User user1 = new User("Peter", "pass", "pheroux001@csbsju.edu", "Peter Heroux", "320-290-1234", true);
     User user2 = new User("John", "word", "john@gmail.com", "John Doe", "320-240-1244", false);
     User user3 = new User("Aidan", "secure", "amath001@csbsju.edu", "Aidan Math", "320-230-1214", true);
@@ -26,23 +30,23 @@ public static void intializeFakeTrialData(){
 
 
 
-    HousingUnit unit1 = new HousingUnit("Mary Hall");
-    HousingUnit unit2 = new HousingUnit("Tommy Hall");
+    HousingUnit unit1 = new HousingUnit("Mary Hall", "MA");
+    HousingUnit unit2 = new HousingUnit("Tommy Hall", "T");
 
-    Room room1 = new Room(101, 2, true, false, true, false, true, "1111");
-    Room room2 = new Room(102, 2, true, false, true, false, true, "2222");
-    Room room3 = new Room(103, 2, true, false, true, false, true, "3333");
-    Room room4 = new Room(104, 2, true, false, true, false, true, "4444");
+    Room room1 = new Room(101, 1, true, true, false, false, true, "1111");
+    Room room2 = new Room(102, 4, true, false, true, false, true, "2222");
+    Room room3 = new Room(103, 2, true, false, true, true, true, "3333");
+    Room room4 = new Room(104, 2, false, false, true, false, true, "4444");
     Room room5 = new Room(105, 2, true, false, true, false, true, "5555");
-    Room room6 = new Room(106, 2, true, false, true, false, true, "6666");
+    Room room6 = new Room(106, 2, true, false, true, false, false, "6666");
 
-    Guest guest1 = new Guest(0, false, "bar", "");
-    Guest guest2 = new Guest(1, false, "foo", "");
-    Guest guest3 = new Guest(0, true, "baz", "", "I am a goofy member");
-    Guest guest4 = new Guest(2, false, "qux", "");
+    Guest guest1 = new Guest(0, false, "bar", "", currentDate, futureDate);
+    Guest guest2 = new Guest(1, false, "foo", "",currentDate, futureDate);
+    Guest guest3 = new Guest(0, true, "baz", "", currentDate, futureDate, "extra info");
+    Guest guest4 = new Guest(2, false, "qux", "", currentDate,futureDate);
 
-    Group group1 = new Group();
-    Group group2 = new Group();
+    Group group1 = new Group("Group 1");
+    Group group2 = new Group("Group 2");
 
     group1.addGuest(guest1);
     group1.addGuest(guest2);
@@ -102,32 +106,15 @@ public static void intializeFakeTrialData(){
         s.nextLine();
 
         switch (choice) {
-            case 1:
-                viewHousingUnits();
-                break;
-            case 2:
-                //viewGroups();
-                break;
-            case 3:
-                //viewGuests();
-                break;
-            case 4:
-                //viewUsers();
-                break;
-            case 5:
-                //createUser(s);
-                break;
-            case 6:
-                //deleteUser(s);
-                break;
-            case 7:
-                //updateUser(s);
-                break;
-            case 8:
-                UserInteraction.logout();
-                break;
-            default:
-                System.out.println("Invalid choice.");
+            case 1 -> viewHousingUnits();
+            case 2 -> viewGroups();
+            case 3 -> viewGuests();
+            case 4 -> viewUsers();
+            case 5 -> createUser(s);
+            //case 6 -> deleteUser(s);
+            //case 7 -> updateUser(s);
+            case 8 -> UserInteraction.logout();
+            default -> System.out.println("Invalid choice.");
         }
     }
 
@@ -138,6 +125,73 @@ public static void intializeFakeTrialData(){
             unit.toStringHousingDetail(unit);
         }
         returnOptions(new Scanner(System.in));
+    }
+
+    public static void viewGroups(){
+        clearScreen();
+        printHeader("Groups");
+        for(Group group : UserInteraction.viewGroups()){
+            group.toStringDetail(group);
+            System.out.println("\n\n\n");
+        }
+
+
+        returnOptions(new Scanner(System.in));
+    }
+
+    public static void viewGuests(){
+        clearScreen();
+        printHeader("Guests");
+        for(Guest guest : UserInteraction.viewGuests()){
+            System.out.println(guest.toString());
+            System.out.println("");
+        }
+        returnOptions(new Scanner(System.in));
+    }
+
+    public static void viewUsers(){
+        clearScreen();
+        printHeader("Users");
+        for(User user : UserInteraction.viewUsers()){
+            System.out.println(user.toString());
+            System.out.println("");
+        }
+        returnOptions(new Scanner(System.in));
+    }
+
+    public static void createUser(Scanner s){
+        clearScreen();
+        boolean isAdmin = false;
+        printHeader("Create User");
+        System.out.print("Enter username: ");
+        String username = s.nextLine();
+        System.out.print("Enter password: ");
+        String password = s.nextLine();
+        System.out.print("Enter email: ");
+        String email = s.nextLine();
+        System.out.print("Enter name: ");
+        String name = s.nextLine();
+        System.out.print("Enter phone number: ");
+        String phoneNumber = s.nextLine();
+        System.out.print("Is admin? (true/false): ");
+        try{
+        isAdmin = s.nextBoolean();
+        s.nextLine();
+        } catch (Exception e){
+            System.out.println("Invalid input. Please enter true or false.");
+            System.out.println("Press enter to continue.");
+            s.nextLine();
+            createUser(s);
+            return;
+        }
+
+        boolean success = UserInteraction.createUser(username, password, email, name, phoneNumber, isAdmin);
+        if(success){
+            System.out.println("User created successfully.");
+        } else {
+            System.out.println("Failed to create user.");
+        }
+        returnOptions(s);
     }
 
 	/**
