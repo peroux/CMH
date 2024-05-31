@@ -59,6 +59,10 @@ public class HousingUnit {
         return allHousingUnits;
     }
 
+    public String toString() {
+        return name;
+    }
+
     public void toStringHousingDetail(HousingUnit unit) {
         String markers = "";
        for (int i = 0; i < unit.getName().length(); i++) {

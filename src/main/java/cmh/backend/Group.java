@@ -77,6 +77,10 @@ public class Group {
         allGroups.clear();
     }
 
+    public String toString() {
+        return "Group: " + name;
+    }
+
     public void toStringDetail(Group group) {
         String str = "Group: " + group.getName();
         for (Guest guest : group.getGroup()) {

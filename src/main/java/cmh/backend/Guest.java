@@ -127,6 +127,10 @@ public class Guest {
     }
 
     public String toString() {
+        return "Name: " + name;
+    }
+
+    public String toStringDetail() {
         return "\nName: " + this.name + "\nGender: " + this.gender + ", Staff: " + this.staff + ", Key: " + this.key + "\nCheck In: " + this.checkIn + "\nCheck Out: " + this.checkOut;
     }
 

@@ -17,6 +17,10 @@ public class Driver {
             }
         }
     }
+/**
+ * Initializes fake trial data for testing purposes.
+ * This method creates and initializes various objects such as users, housing units, rooms, guests, and groups.
+ */
 public static void intializeFakeTrialData(){
 
     Date currentDate = new Date();
@@ -90,6 +94,11 @@ public static void intializeFakeTrialData(){
 			System.out.println("Redirecting to main menu.");
 	}
 
+    /**
+     * Displays the main menu options and performs the corresponding actions based on user input.
+     *
+     * @param s the Scanner object used for user input
+     */
     public static void mainMenu(Scanner s){
         printHeader("Main Menu");
         System.out.println("1. View Housing Units");
@@ -111,13 +120,16 @@ public static void intializeFakeTrialData(){
             case 3 -> viewGuests();
             case 4 -> viewUsers();
             case 5 -> createUser(s);
-            //case 6 -> deleteUser(s);
-            //case 7 -> updateUser(s);
+            case 6 -> deleteUser(s);
+            case 7 -> updateUser(s);
             case 8 -> UserInteraction.logout();
             default -> System.out.println("Invalid choice.");
         }
     }
 
+    /**
+     * Displays the details of all housing units.
+     */
     public static void viewHousingUnits(){
         clearScreen();
         printHeader("Housing Units");
@@ -127,6 +139,9 @@ public static void intializeFakeTrialData(){
         returnOptions(new Scanner(System.in));
     }
 
+    /**
+     * Displays the list of groups and their details.
+     */
     public static void viewGroups(){
         clearScreen();
         printHeader("Groups");
@@ -139,6 +154,9 @@ public static void intializeFakeTrialData(){
         returnOptions(new Scanner(System.in));
     }
 
+    /**
+     * Displays the list of guests and their details.
+     */
     public static void viewGuests(){
         clearScreen();
         printHeader("Guests");
@@ -149,6 +167,9 @@ public static void intializeFakeTrialData(){
         returnOptions(new Scanner(System.in));
     }
 
+    /**
+     * Displays the list of users and their details.
+     */
     public static void viewUsers(){
         clearScreen();
         printHeader("Users");
@@ -159,6 +180,11 @@ public static void intializeFakeTrialData(){
         returnOptions(new Scanner(System.in));
     }
 
+    /**
+     * Creates a new user based on user input.
+     *
+     * @param s the Scanner object used for user input
+     */
     public static void createUser(Scanner s){
         clearScreen();
         boolean isAdmin = false;
@@ -181,6 +207,7 @@ public static void intializeFakeTrialData(){
             System.out.println("Invalid input. Please enter true or false.");
             System.out.println("Press enter to continue.");
             s.nextLine();
+            s.nextLine();
             createUser(s);
             return;
         }
@@ -190,6 +217,78 @@ public static void intializeFakeTrialData(){
             System.out.println("User created successfully.");
         } else {
             System.out.println("Failed to create user.");
+        }
+        returnOptions(s);
+    }
+
+    /**
+     * Deletes a user based on user input.
+     *
+     * @param s the Scanner object used for user input
+     */
+    public static void deleteUser(Scanner s){
+        clearScreen();
+        printHeader("Delete User");
+        System.out.print("Enter username: ");
+        String username = s.nextLine();
+        boolean success = UserInteraction.deleteUser(username);
+        if(success){
+            System.out.println("User deleted successfully.");
+        } else {
+            System.out.println("Failed to delete user.");
+        }
+        returnOptions(s);
+    }
+
+    /**
+     * Updates a user's information based on user input.
+     *
+     * @param s the Scanner object used for user input
+     */
+    public static void updateUser(Scanner s){
+        clearScreen();
+        boolean isAdmin = false;
+        printHeader("Update User");
+        System.out.print("Enter username: ");
+        String username = s.nextLine();
+        if (UserInteraction.getUser(username) == null){
+            System.out.println("User not found.");
+            returnOptions(s);
+            return;
+        }
+        System.out.print("Enter password: ");
+        String password = s.nextLine();
+        if (password.isBlank()){
+            password = UserInteraction.getUser(username).getPassword();
+        }
+        System.out.print("Enter email: ");
+        String email = s.nextLine();
+        if (email.isBlank()){
+            email = UserInteraction.getUser(username).getEmail();
+        }
+        System.out.print("Enter name: ");
+        String name = s.nextLine();
+        if (name.isBlank()){
+            name = UserInteraction.getUser(username).getName();
+        }
+        System.out.print("Enter phone number: ");
+        String phoneNumber = s.nextLine();
+        if (phoneNumber.isBlank()){
+            phoneNumber = UserInteraction.getUser(username).getPhoneNumber();
+        }
+        System.out.print("Is admin? (true/false): ");
+        try{
+        isAdmin = s.nextBoolean();
+        s.nextLine();
+        } catch (Exception e){
+            isAdmin = UserInteraction.getUser(username).getIsAdmin();
+        }
+
+        boolean success = UserInteraction.updateUser(username, password, email, name, phoneNumber, isAdmin);
+        if(success){
+            System.out.println("User updated successfully.");
+        } else {
+            System.out.println("Failed to update user.");
         }
         returnOptions(s);
     }
@@ -210,11 +309,19 @@ public static void intializeFakeTrialData(){
 		System.out.println(dashes);
     }
 
+    /**
+     * Clears the console screen.
+     */
     public static void clearScreen(){
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * Displays the return options for the user.
+     *
+     * @param s the Scanner object used for user input
+     */
     public static void returnOptions(Scanner s){
         System.out.println("\n\n\n");
         System.out.println("1. Return to main menu");
