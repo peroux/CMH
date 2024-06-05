@@ -19,6 +19,7 @@ public class HousingUnit {
     }
 
     public void addRoom(Room room) {
+        room.setPrefix(prefix);
         rooms.add(room);
     }
 
@@ -63,18 +64,21 @@ public class HousingUnit {
         return name;
     }
 
-    public void toStringHousingDetail(HousingUnit unit) {
+    public String toStringDetail() {
+        String result = "";
         String markers = "";
-       for (int i = 0; i < unit.getName().length(); i++) {
-        markers += "~";
-       }
-        System.out.println(markers);
-        System.out.println(unit.getName());
-        System.out.println(markers);
-        for (Room room : unit.getRooms()) {
-            System.out.println("Room " + unit.getPrefix() + room.getRoomNumber() + " (holds " + room.getCapacity() + "): " + (room.getHasAC() ? "Has AC" : "No AC") + (room.getPrivBath() ? ", Private Bath" : "") + (room.getIsOccupied() ? ", Occupied" : "") + (room.getIsReserved() ? ", Reserved" : ""));
+        for (int i = 0; i < getName().length(); i++) {
+            markers += "~";
+        }
+
+        result += markers + "\n" + getName() + "\n" + markers + "\n\n\n";
+
+        for (Room room : getRooms()) {
+            result += "Room " + getPrefix() + room.getRoomNumber() + " (holds " + room.getCapacity() + "): " + (room.getHasAC() ? "Has AC" : "No AC") + (room.getPrivBath() ? ", Private Bath" : "") + (room.getIsOccupied() ? ", Occupied" : "") + (room.getIsReserved() ? ", Reserved" : "" + "\n");
             
         }
+
+        return result;
 
     }
 

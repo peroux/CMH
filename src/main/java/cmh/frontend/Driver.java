@@ -123,7 +123,9 @@ public static void intializeFakeTrialData(){
             case 6 -> deleteUser(s);
             case 7 -> updateUser(s);
             case 8 -> UserInteraction.logout();
-            default -> System.out.println("Invalid choice.");
+            default -> {
+                System.out.println("Invalid choice.");
+            }
         }
     }
 
@@ -134,8 +136,9 @@ public static void intializeFakeTrialData(){
         clearScreen();
         printHeader("Housing Units");
         for(HousingUnit unit : UserInteraction.getHousingUnits()){
-            unit.toStringHousingDetail(unit);
+            System.out.println(unit.toStringDetail());
         }
+
         returnOptions(new Scanner(System.in));
     }
 
@@ -205,8 +208,7 @@ public static void intializeFakeTrialData(){
         s.nextLine();
         } catch (Exception e){
             System.out.println("Invalid input. Please enter true or false.");
-            System.out.println("Press enter to continue.");
-            s.nextLine();
+            sleep(2000);
             s.nextLine();
             createUser(s);
             return;
@@ -218,6 +220,7 @@ public static void intializeFakeTrialData(){
         } else {
             System.out.println("Failed to create user.");
         }
+
         returnOptions(s);
     }
 
@@ -237,6 +240,7 @@ public static void intializeFakeTrialData(){
         } else {
             System.out.println("Failed to delete user.");
         }
+
         returnOptions(s);
     }
 
@@ -252,8 +256,9 @@ public static void intializeFakeTrialData(){
         System.out.print("Enter username: ");
         String username = s.nextLine();
         if (UserInteraction.getUser(username) == null){
-            System.out.println("User not found.");
-            returnOptions(s);
+            System.out.println("User not found. Restarting...");
+            sleep(2000);
+            updateUser(s);
             return;
         }
         System.out.print("Enter password: ");
@@ -290,6 +295,7 @@ public static void intializeFakeTrialData(){
         } else {
             System.out.println("Failed to update user.");
         }
+
         returnOptions(s);
     }
 
@@ -317,6 +323,14 @@ public static void intializeFakeTrialData(){
         System.out.flush();
     }
 
+    public static void sleep(int time){
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Displays the return options for the user.
      *
@@ -335,6 +349,7 @@ public static void intializeFakeTrialData(){
             UserInteraction.logout();
         } else {
             System.out.println("Invalid choice... returning to main menu.");
+            sleep(2000);
         }
     }
 }

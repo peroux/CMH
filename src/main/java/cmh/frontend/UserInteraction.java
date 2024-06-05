@@ -23,23 +23,23 @@ import java.util.List;
  * - getRoom
  * - getHousingUnits
  * - logout
+ * - createRoom
+ * - deleteRoom
+ * - updateRoom
+ * - getRoom
  * methods to be added are:
  * - createGuest
  * - deleteGuest
  * - updateGuest
  * - viewGuest
  * - getGuest
- * - createRoom
- * - deleteRoom
- * - updateRoom
  * - viewRoom
- * - getRoom
  * - createHousingUnit
  * - deleteHousingUnit
  * - updateHousingUnit
  * - viewHousingUnit
  * - getHousingUnit
- * the organization of this file should be improved.
+ * TODO: Add the remaining methods and possibly organize them more
  */
 
 public class UserInteraction {
@@ -66,6 +66,23 @@ public class UserInteraction {
             return false;
         }
     }
+
+    public static void logout() {
+        currentlyLoggedInUser = null;
+    }
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                      USER METHODS                                            \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+
 
 /**
  * Creates a new user with the specified details.
@@ -141,17 +158,19 @@ public static boolean createUser(String username, String password, String email,
         return User.getUser(username);
     }
 
-    /**
-     * Retrieves a list of groups.
-     * 
-     * @return a list of groups if the currently logged-in user is an admin, otherwise null.
-     */
-    public static List<Group> viewGroups() {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return null;
-        }
-        return Group.getGroups();
-    }
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                      GUEST METHODS                                           \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+
 
     /**
      * Retrieves a list of guests.
@@ -164,6 +183,31 @@ public static boolean createUser(String username, String password, String email,
         }
 
         return Guest.getAllGuests();
+    }
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                      GROUP METHODS                                           \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+
+
+    /**
+     * Retrieves a list of groups.
+     * 
+     * @return a list of groups if the currently logged-in user is an admin, otherwise null.
+     */
+    public static List<Group> viewGroups() {
+        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
+            return null;
+        }
+        return Group.getGroups();
     }
 
     /**
@@ -257,6 +301,19 @@ public static boolean createUser(String username, String password, String email,
         return Group.getGroupByIndex(groupID) == null;
     }
 
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                      ROOM METHODS                                            \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+    
     /**
      * Represents a room in a housing unit.
      * 
@@ -264,19 +321,47 @@ public static boolean createUser(String username, String password, String email,
      * @return the Room object associated with the provided room ID, or null if there is no currently logged in user 
      *         or if no room with the given ID exists
      */
-    public static Room getRoom(int roomID) {
+    public static Room getRoom(int roomID,String prefix) {
         if(currentlyLoggedInUser == null) {
             return null;
         }
-        for(HousingUnit unit : HousingUnit.getAllHousingUnits()) {
-            for(Room room : unit.getRooms()) {
-                if(room.getRoomNumber() == roomID) {
-                    return room;
-                }
-            }
-        }
-        return null;
+        return RoomController.getRoom(roomID, prefix);
     }
+
+    public static boolean removeRoom(int roomNumber, String prefix) {
+        if(currentlyLoggedInUser == null) {
+            return false;
+        }
+        return RoomController.removeRoom(roomNumber, prefix);
+    }
+
+    public static boolean updateRoom(String currPrefix, int currRoomNumber, String newPrefix, int newRoomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
+        if(currentlyLoggedInUser == null) {
+            return false;
+        }
+        return RoomController.editRoom(currPrefix, currRoomNumber, newPrefix, newRoomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
+    }
+
+    public static boolean addRoom(String prefix, int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
+        if(currentlyLoggedInUser == null) {
+            return false;
+        }
+        return RoomController.addRoom(prefix, roomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
+    }
+
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                      HOUSING UNIT METHODS                                    \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+ 
+
+
+
 
     /**
      * Retrieves a list of housing units.
@@ -289,9 +374,4 @@ public static boolean createUser(String username, String password, String email,
         }
         return HousingUnit.getAllHousingUnits();
     }
-
-    public static void logout() {
-        currentlyLoggedInUser = null;
-    }
-
 }
