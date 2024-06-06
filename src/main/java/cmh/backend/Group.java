@@ -28,7 +28,7 @@ public class Group {
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public void addGuest(Guest guest) {
         group.add(guest);
     }

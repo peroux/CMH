@@ -9,6 +9,7 @@ import java.util.ArrayList;
 //add day in day out, move to group
 
 public class Room {
+    private String prefix;
     private int roomNumber;
     private int capacity;
     private boolean hasAC;
@@ -17,9 +18,10 @@ public class Room {
     private boolean isReserved;
     private boolean privBath;
     private String phoneNumber;
-    private List<Room> rooms = new ArrayList<Room>();
+    private static List<Room> rooms = new ArrayList<Room>();
 
-    public Room(int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
+    public Room(String prefix, int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
+        this.prefix = prefix;
         this.roomNumber = roomNumber;
         this.capacity = capacity;
         this.hasAC = hasAC;
@@ -31,6 +33,28 @@ public class Room {
         rooms.add(this);
 
     }
+
+    public Room(int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
+        this.prefix = "";
+        this.roomNumber = roomNumber;
+        this.capacity = capacity;
+        this.hasAC = hasAC;
+        this.isOccupied = isOccupied;
+        this.isAvailable = isAvailable;
+        this.isReserved = isReserved;
+        this.privBath = privBath;
+        rooms.add(this);
+
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     public String getPhoneNumber(){
         return this.phoneNumber;
     }
@@ -93,7 +117,8 @@ public class Room {
         return privBath;
     }
 
-     public boolean editRoom(HousingUnit HousingUnit, Room room, int newRoomNumber, int newCapacity, boolean newHasAC, boolean newIsOccupied, boolean newIsAvailable, boolean newIsReserved, boolean privBath, String phoneNumber) {
+     public void editRoom(HousingUnit HousingUnit, Room room, int newRoomNumber, int newCapacity, boolean newHasAC, boolean newIsOccupied, boolean newIsAvailable, boolean newIsReserved, boolean privBath, String phoneNumber) {
+            room.setPrefix(HousingUnit.getPrefix());
             room.setRoomNumber(newRoomNumber);
             room.setCapacity(newCapacity);
             room.setHasAC(newHasAC);
@@ -102,11 +127,25 @@ public class Room {
             room.setIsReserved(newIsReserved);
             room.setPrivBath(privBath);
             room.setPhoneNumber(phoneNumber);
-            return true;
     }
 
 
-    public List<Room> getRooms() {
+    public static List<Room> getRooms() {
+        
         return rooms;
     }
+
+    public static void setRooms(List<Room> rooms) {
+        Room.rooms = rooms;
+    }
+
+    public String toString() {
+        return "Room Number: " + roomNumber + " Prefix: " + prefix;
+    }
+
+    public String toStringDetailed() {
+        return "Room Number: " + roomNumber + " Prefix: " + prefix + " Capacity: " + capacity + " Has AC: " + hasAC + " Is Occupied: " + isOccupied + " Is Available: " + isAvailable + " Is Reserved: " + isReserved + " Private Bath: " + privBath + " Phone Number: " + phoneNumber;
+    }
+
+
 }
