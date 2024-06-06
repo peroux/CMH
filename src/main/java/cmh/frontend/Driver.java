@@ -21,6 +21,7 @@ public class Driver {
  * Initializes fake trial data for testing purposes.
  * This method creates and initializes various objects such as users, housing units, rooms, guests, and groups.
  */
+@SuppressWarnings("unused")
 public static void intializeFakeTrialData(){
 
     Date currentDate = new Date();

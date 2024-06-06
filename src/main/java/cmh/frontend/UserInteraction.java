@@ -45,10 +45,13 @@ import java.util.List;
 public class UserInteraction {
     private static User currentlyLoggedInUser = null;
     private static int guestID = -1;
+    private static boolean user = false;
+    private static boolean admin = false;
 
     public static User getCurrentlyLoggedInUser() {
         return currentlyLoggedInUser;
     }
+
 
     /**
      * Logs in a user with the given username and password.
@@ -58,9 +61,11 @@ public class UserInteraction {
      * @return true if the login is successful, false otherwise
      */
     public static boolean login(String username, String password) {
-        User user = UserController.login(username, password);
-        if(user != null) {
-            currentlyLoggedInUser = user;
+        User u = UserController.login(username, password);
+        if(u != null) {
+            currentlyLoggedInUser = u;
+            user = currentlyLoggedInUser != null;
+            admin = currentlyLoggedInUser.getIsAdmin() && user;
             return true;
         } else {
             return false;
@@ -70,6 +75,7 @@ public class UserInteraction {
     public static void logout() {
         currentlyLoggedInUser = null;
     }
+
 
 
 
@@ -96,10 +102,10 @@ public class UserInteraction {
  * @return true if the user is created successfully, false otherwise
  */
 public static boolean createUser(String username, String password, String email, String name, String phoneNumber, boolean isAdmin) {
-    if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-        return false;
-    }
-    return UserController.createUser(username, password, email, name, phoneNumber, isAdmin);
+        if(admin) {
+            return UserController.createUser(username, password, email, name, phoneNumber, isAdmin);
+        }
+    return false;
     }
 
     /**
@@ -109,10 +115,10 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the user was successfully deleted, false otherwise
      */
     public static boolean deleteUser(String username) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            return UserController.deleteUser(username);
         }
-        return UserController.deleteUser(username);
+        return false;
     }
 
     /**
@@ -127,10 +133,10 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the user was successfully updated, false otherwise
      */
     public static boolean updateUser(String username, String password, String email, String name, String phoneNumber, boolean isAdmin) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            return UserController.updateUser(username, password, email, name, phoneNumber, isAdmin);
         }
-        return UserController.updateUser(username, password, email, name, phoneNumber, isAdmin);
+        return false;
     }
 
     /**
@@ -139,10 +145,10 @@ public static boolean createUser(String username, String password, String email,
      * @return A list of User objects if the currently logged-in user is an admin, null otherwise.
      */
     public static List<User> viewUsers() {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return null;
+        if(admin) {
+            return User.getUsers();
         }
-        return User.getUsers();
+        return null;
     }
 
     /**
@@ -152,10 +158,10 @@ public static boolean createUser(String username, String password, String email,
      * @return the User object associated with the provided username, or null if the currently logged-in user is not an admin or if no user with the given username exists
      */
     public static User getUser(String username) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return null;
+        if(admin) {
+            return User.getUser(username);
         }
-        return User.getUser(username);
+        return null;
     }
 
 
@@ -178,11 +184,11 @@ public static boolean createUser(String username, String password, String email,
      * @return a list of guests if the currently logged-in user is an admin, otherwise null.
      */
     public static List<Guest> viewGuests() {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return null;
+        if(admin) {
+            return Guest.getAllGuests();
         }
 
-        return Guest.getAllGuests();
+        return null;
     }
 
 
@@ -204,10 +210,10 @@ public static boolean createUser(String username, String password, String email,
      * @return a list of groups if the currently logged-in user is an admin, otherwise null.
      */
     public static List<Group> viewGroups() {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return null;
+        if(admin) {
+            return Group.getGroups();
         }
-        return Group.getGroups();
+        return null;
     }
 
     /**
@@ -217,11 +223,11 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the group is successfully created, false otherwise
      */
     public static boolean createGroup(String name) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            Group newGroup = new Group(name);
+            return newGroup != null;
         }
-        Group newGroup = new Group(name);
-        return newGroup != null;
+        return false;
     }
 
     /**
@@ -231,11 +237,11 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the group was successfully deleted, false otherwise
      */
     public static boolean deleteGroup(int groupID) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            Group.removeGroup(groupID);
+            return Group.getGroupByIndex(groupID) == null;
         }
-        Group.removeGroup(groupID);
-        return Group.getGroupByIndex(groupID) == null;
+        return false;
     }
 
     /**
@@ -246,11 +252,12 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the guest was successfully added to the group, false otherwise
      */
     public static boolean addGuestToGroup(int groupID, Guest guest) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            
+            Group.getGroupByIndex(groupID).addGuest(guest);
+            return Group.getGroupByIndex(groupID).getGroup().contains(guest);
         }
-        Group.getGroupByIndex(groupID).addGuest(guest);
-        return Group.getGroupByIndex(groupID).getGroup().contains(guest);
+        return false;
     }
 
     /**
@@ -261,11 +268,12 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the guest was successfully removed, false otherwise
      */
     public static boolean removeGuestFromGroup(int groupID, int guestID) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            
+            Group.getGroupByIndex(groupID).removeGuest(guestID);
+            return !Group.getGroupByIndex(groupID).getGroup().contains(Guest.getGuestByIndex(guestID));
         }
-        Group.getGroupByIndex(groupID).removeGuest(guestID);
-        return !Group.getGroupByIndex(groupID).getGroup().contains(Guest.getGuestByIndex(guestID));
+        return false;
     }
 
     /**
@@ -276,11 +284,11 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the group is cleared successfully and has no members, false otherwise
      */
     public static boolean clearGroup(int groupID) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            Group.getGroupByIndex(groupID).clear();
+            return Group.getGroupByIndex(groupID).getGroupSize() == 0;
         }
-        Group.getGroupByIndex(groupID).clear();
-        return Group.getGroupByIndex(groupID).getGroupSize() == 0;
+        return false;
     }
 
     /**
@@ -290,15 +298,15 @@ public static boolean createUser(String username, String password, String email,
      * @return true if the group and its guests were successfully deleted, false otherwise
      */
     public static boolean deleteGroupAndGuests(int groupID) {
-        if(currentlyLoggedInUser == null || !currentlyLoggedInUser.getIsAdmin()) {
-            return false;
+        if(admin) {
+            for(Guest guest : Group.getGroupByIndex(groupID).getGroup()) {
+                guestID = Guest.getIndexByGuest(guest);
+                Guest.removeGuest(guestID);
+            }
+            Group.removeGroup(groupID);
+            return Group.getGroupByIndex(groupID) == null;
         }
-        for(Guest guest : Group.getGroupByIndex(groupID).getGroup()) {
-            guestID = Guest.getIndexByGuest(guest);
-            Guest.removeGuest(guestID);
-        }
-        Group.removeGroup(groupID);
-        return Group.getGroupByIndex(groupID) == null;
+        return false;
     }
 
 
@@ -322,31 +330,32 @@ public static boolean createUser(String username, String password, String email,
      *         or if no room with the given ID exists
      */
     public static Room getRoom(int roomID,String prefix) {
-        if(currentlyLoggedInUser == null) {
-            return null;
+        if(user) {
+            return RoomController.getRoom(roomID, prefix);
         }
-        return RoomController.getRoom(roomID, prefix);
+        return null;
+        
     }
 
     public static boolean removeRoom(int roomNumber, String prefix) {
-        if(currentlyLoggedInUser == null) {
-            return false;
+        if(admin) {
+            return RoomController.removeRoom(roomNumber, prefix);
         }
-        return RoomController.removeRoom(roomNumber, prefix);
+        return false;
     }
 
     public static boolean updateRoom(String currPrefix, int currRoomNumber, String newPrefix, int newRoomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
-        if(currentlyLoggedInUser == null) {
-            return false;
+        if(admin) {
+            return RoomController.editRoom(currPrefix, currRoomNumber, newPrefix, newRoomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
         }
-        return RoomController.editRoom(currPrefix, currRoomNumber, newPrefix, newRoomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
+        return false;
     }
 
     public static boolean addRoom(String prefix, int roomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
-        if(currentlyLoggedInUser == null) {
-            return false;
+        if(admin) {
+            return RoomController.addRoom(prefix, roomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
         }
-        return RoomController.addRoom(prefix, roomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
+        return false;
     }
 
 
@@ -369,9 +378,30 @@ public static boolean createUser(String username, String password, String email,
      * @return a list of housing units, or null if no user is currently logged in
      */
     public static List<HousingUnit> getHousingUnits() {
-        if(currentlyLoggedInUser == null) {
-            return null;
+        if(user) {
+            return HousingUnit.getAllHousingUnits();
         }
-        return HousingUnit.getAllHousingUnits();
+        return null;
+    }
+
+    public static boolean addHousingUnit(String prefix, String name) {
+        if(admin) {
+            return HousingUnitController.addHousingUnit(prefix, name);
+        }
+        return false;
+    }
+
+    public static boolean removeHousingUnit(String prefix) {
+        if(admin) {
+            return HousingUnitController.removeHousingUnit(prefix);
+        }
+        return false;
+    }
+
+    public static boolean editHousingUnit(String currPrefix, String newPrefix, String name) {
+        if(admin) {
+            return HousingUnitController.editHousingUnit(currPrefix, newPrefix, name);
+        }
+        return false;
     }
 }
