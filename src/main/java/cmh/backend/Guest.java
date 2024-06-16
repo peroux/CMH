@@ -13,6 +13,7 @@ public class Guest {
     private static List<Guest> allGuests = new ArrayList<Guest>();
     private Date checkIn;
     private Date checkOut;
+    private boolean isCheckedIn;
 
 // costructor for guests 
     public Guest(int gender, boolean staff, String name, String key, Date checkIn, Date checkOut) {
@@ -22,6 +23,7 @@ public class Guest {
         this.key = key;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
+        this.isCheckedIn = false;
         allGuests.add(this);
     }
 // constructor for guests with other info
@@ -33,6 +35,8 @@ public class Guest {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.otherInfo=otherInfo;
+        this.isCheckedIn = false;
+        allGuests.add(this);
     }
 
     public Date getCheckIn() {
@@ -106,6 +110,14 @@ public class Guest {
 
     public static void setAllGuests(List<Guest> allGuests) {
         Guest.allGuests = allGuests;
+    }
+
+    public boolean getCheckedIn() {
+        return isCheckedIn;
+    }
+
+    public void setCheckedIn(boolean checkedIn) {
+        isCheckedIn = checkedIn;
     }
 
     public static void removeGuest(int index) {

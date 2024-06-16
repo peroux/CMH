@@ -2,6 +2,7 @@ package src.main.java.cmh.frontend;
 
 import src.main.java.cmh.backend.*;
 import java.util.List;
+import java.util.Date;
 
 /**
  * This class provides methods for user interaction with the system.
@@ -191,6 +192,66 @@ public static boolean createUser(String username, String password, String email,
         return null;
     }
 
+    public static boolean addGuest(int gender, boolean staff, String name, String key, String otherInfo, Date checkIn, Date checkOut) {
+        if(admin) {
+            return GuestController.addGuest(gender, staff, name, key, checkIn, checkOut, otherInfo);
+        }
+        return false;
+    }
+
+    public static Guest getGuest(String name) {
+        if(admin) {
+            return GuestController.getGuest(name);
+        }
+        return null;
+    }
+
+    public static boolean removeGuest(String name) {
+        if(admin) {
+            return GuestController.removeGuest(name);
+        }
+        return false;
+    }
+
+    public static boolean editGuest(String name, String newName, int newGender, boolean newStaff, String newKey, Date newCheckIn, Date newCheckOut) {
+        if(admin) {
+            return GuestController.editGuest(name, newName, newGender, newStaff, newKey, newCheckIn, newCheckOut);
+        }
+        return false;
+    }
+
+    public static boolean addGuestToRoom(String name, String prefix, int roomNumber) {
+        if(admin) {
+            return GuestController.addGuestToRoom(name, prefix, roomNumber);
+        }
+        return false;
+    }
+
+    public static boolean removeGuestFromRoom(String name) {
+        if(admin) {
+            return GuestController.removeGuestFromRoom(name);
+        }
+        return false;
+    }
+
+    public static boolean checkInGuest(String name) {
+        if(admin) {
+            return GuestController.checkInGuest(name);
+        }
+        return false;
+    }
+
+    public static boolean checkOutGuest(String name) {
+        if(admin) {
+            return GuestController.checkOutGuest(name);
+        }
+        return false;
+    }
+
+    
+
+
+
 
 
 
@@ -344,7 +405,7 @@ public static boolean createUser(String username, String password, String email,
         return false;
     }
 
-    public static boolean updateRoom(String currPrefix, int currRoomNumber, String newPrefix, int newRoomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
+    public static boolean editRoom(String currPrefix, int currRoomNumber, String newPrefix, int newRoomNumber, int capacity, boolean hasAC, boolean isOccupied, boolean isAvailable, boolean isReserved, boolean privBath, String phoneNumber) {
         if(admin) {
             return RoomController.editRoom(currPrefix, currRoomNumber, newPrefix, newRoomNumber, capacity, hasAC, isOccupied, isAvailable, isReserved, privBath, phoneNumber);
         }
