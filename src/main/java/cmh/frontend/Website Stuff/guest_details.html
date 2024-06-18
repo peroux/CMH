@@ -4,24 +4,246 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Details</title>
-</head>
-<body>
-    <h1>Guest Details</h1>
-    <form id="guestForm">
-        <input type="hidden" id="guests" name="guests" value="">
-        <input type="hidden" id="dateOut" name="dateOut" value="">
-        
-        <div id="guestFields">
-        </div>
-        <input type="button" value="Add Guest" onclick="addGuest()">
-        <input type="button" value="Submit Housing Request">
-    </form>
-
-    <script>
-        function addGuest() {
-            window.location.href = "guest_info.html";
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
         }
+        
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 5);
+            opacity: 0.95;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .guest-details {
+            margin-bottom: 15px;
+            padding: 25px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+        }
+        
+        input[type="text"],
+        select,
+        input[type="date"],
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        input[type="checkbox"] {
+            margin-top: 1px;
+        }
+        
+        .remove-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .remove-button:hover {
+            background-color: #cc0000;
+        }
+        
+        #addAnother {
+            text-align: center;
+            color: #007bff;
+            cursor: pointer;
+        }
+        
+        .background-image {
+            background-image: url('https://r4.wallpaperflare.com/wallpaper/183/852/879/landscape-drone-saint-john-s-university-hd-wallpaper-5e8e431ea788dc26b2b62bbed073be07.jpg');
+            background-position: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+        
+        #addAnother:hover {
+            text-decoration: underline;
+        }
+        
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<div class="background-image"></div>
+<body>
+    <form id="guestForm">
+        <h1 id="headerGroupName">Guest Details</h1>
+
+        <p>Please provide details for each guest:</p>
+        
+        <div id="guestDetails" class="guest-details">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            
+            <label for="dateIn">Check-in Date:</label>
+            <input type="date" id="dateIn" name="dateIn" required>
+            
+            <label for="dateOut">Check-out Date:</label>
+            <input type="date" id="dateOut" name="dateOut" required>
+            
+            <label for="staff">Staff:</label>
+            <input type="checkbox" id="staff" name="staff">
+            
+            <label for="misc">Miscellaneous Info:</label>
+            <input type="text" id="misc" name="misc">
+            
+            <button type="button" class="remove-button">Remove</button>
+        </div>
+        
+        <p id="addAnother">Click here to add another guest</p>
+
+        <label for="groupMisc">Any miscellaneous/extra group info:</label>
+        <textarea id="groupMisc" rows="4" cols="50"></textarea>
+
+        <button type="submit">Continue</button>
+    </form>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var addAnother = document.getElementById("addAnother");
+            var guestDetails = document.getElementById("guestDetails");
+            var form = document.getElementById("guestForm");
+
+            // Load existing guest data from sessionStorage
+            var csvContent = sessionStorage.getItem('guestData');
+            var groupMiscInfo = sessionStorage.getItem('groupMiscInfo') || '';
+            document.getElementById('groupMisc').value = groupMiscInfo;
+
+            if (csvContent) {
+                var guests = csvContent.split(';'); // Split by semicolon to separate guests
+                form.removeChild(guestDetails); // Remove initial guestDetails div to avoid duplication
+                
+                guests.forEach(function(guest) {
+                    var newGuestDetails = guestDetails.cloneNode(true);
+                    var guestFields = guest.split(',').map(function(item) {
+                        return item.replace(/"/g, ''); // Remove double quotes
+                    });
+
+                    newGuestDetails.querySelector('#name').value = guestFields[0];
+                    newGuestDetails.querySelector('#gender').value = guestFields[1];
+                    newGuestDetails.querySelector('#dateIn').value = guestFields[2];
+                    newGuestDetails.querySelector('#dateOut').value = guestFields[3];
+                    newGuestDetails.querySelector('#staff').checked = guestFields[4] === 'Yes';
+                    newGuestDetails.querySelector('#misc').value = guestFields[5];
+
+                    form.insertBefore(newGuestDetails, addAnother);
+                });
+            }
+
+            addAnother.addEventListener("click", function() {
+                var newGuestDetails = guestDetails.cloneNode(true);
+                var staffCheckbox = newGuestDetails.querySelector("#staff");
+                staffCheckbox.checked = false;
+                newGuestDetails.querySelectorAll("input[type='text'], select, input[type='date']").forEach(function(input) {
+                    input.value = "";
+                });
+                form.insertBefore(newGuestDetails, addAnother);
+            });
+
+            form.addEventListener("click", function(event) {
+                if (event.target.classList.contains("remove-button")) {
+                    event.target.parentElement.remove();
+                }
+            });
+
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                var guestInfo = [];
+                form.querySelectorAll('.guest-details').forEach(function(guestDetail) {
+                    var guestFields = [];
+                    guestDetail.querySelectorAll('input, select').forEach(function(input) {
+                        if (input.type === 'checkbox') {
+                            guestFields.push(input.checked ? 'Yes' : 'No');
+                        } else {
+                            guestFields.push(input.value);
+                        }
+                    });
+                    guestInfo.push('"' + guestFields.join('","') + '"');
+                });
+
+                var csvContent = guestInfo.join(';');
+                sessionStorage.setItem('guestData', csvContent);
+                sessionStorage.setItem('groupMiscInfo', document.getElementById('groupMisc').value);
+                window.location.href = 'guest_summary.html';
+            });
+        });
+     
+        window.onload = function() {
+            var groupName = sessionStorage.getItem("groupName");
+            if (groupName) {
+                document.getElementById("headerGroupName").textContent = groupName + " - Guest Details";
+            }
+        };
     </script>
 </body>
 </html>
-    

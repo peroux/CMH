@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Summary</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            background: url('https://www.csbsju.edu/images/admission/accepted-students/images.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        header {
+            background-color: #be0f34;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+           
+        }
+        main {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+            color: #7bafd4;
+            font-weight: boldER;
+        }
+        .guest-details {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .guest-details h3 {
+            color: #555;
+            margin-top: 0;
+        }
+        ul {
+            padding-left: 20px;
+            list-style: none;
+        }
+        ul li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        ul li strong {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            resize: vertical;
+        }
+        button {
+            display: inline-block;
+            width: calc(50% - 20px);
+            padding: 15px;
+            margin: 10px 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #makeChanges {
+            background-color: #ffc107;
+            color: white;
+        }
+        #makeChanges:hover {
+            background-color: #e0a800;
+        }
+        #finalize {
+            background-color: #28a745;
+            color: white;
+        }
+        #finalize:hover {
+            background-color: #218838;
+        }
+        footer {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 600px) {
+            main {
+                padding: 10px;
+            }
+            button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guest Summary</h1>
+    </header>
+
+    <main>
+        <h2>Summary of Guest Information</h2>
+        
+        <div id="guestInfo"></div>
+
+        <label for="groupMisc">Any Extra Group Info:</label>
+        <textarea id="groupMisc" rows="4" cols="50"></textarea>
+
+        <button id="makeChanges">Make Changes</button>
+        <button id="finalize">Finalize</button>
+    </main>
+
+    
+
+    <script>
+        window.onload = function() {
+            var csvContent = sessionStorage.getItem('guestData');
+            var groupMiscInfo = sessionStorage.getItem('groupMiscInfo') || '';
+            document.getElementById('groupMisc').value = groupMiscInfo;
+
+            if (csvContent) {
+                var guests = csvContent.split(';'); // Split by semicolon to separate guests
+
+                var guestInfoHTML = '';
+                guests.forEach(function(guest, index) {
+                    var guestFields = guest.split(',').map(function(item) {
+                        return item.replace(/"/g, ''); // Remove double quotes
+                    });
+
+                    guestInfoHTML += '<div class="guest-details">';
+                    guestInfoHTML += '<h3>Guest ' + (index + 1) + ':</h3>';
+                    guestInfoHTML += '<ul>';
+                    guestInfoHTML += '<li><strong>Name:</strong> ' + guestFields[0] + '</li>';
+                    guestInfoHTML += '<li><strong>Gender:</strong> ' + guestFields[1] + '</li>';
+                    guestInfoHTML += '<li><strong>Check-in Date:</strong> ' + guestFields[2] + '</li>';
+                    guestInfoHTML += '<li><strong>Check-out Date:</strong> ' + guestFields[3] + '</li>';
+                    guestInfoHTML += '<li><strong>Staff:</strong> ' + guestFields[4] + '</li>';
+                    guestInfoHTML += '<li><strong>Miscellaneous Info:</strong> ' + guestFields[5] + '</li>';
+                    // Add more fields as needed
+                    guestInfoHTML += '</ul>';
+                    guestInfoHTML += '</div>';
+                });
+
+                document.getElementById('guestInfo').innerHTML = guestInfoHTML;
+            } else {
+                document.getElementById('guestInfo').innerHTML = 'No guest information found.';
+            }
+
+            document.getElementById('makeChanges').addEventListener('click', function() {
+                sessionStorage.setItem('groupMiscInfo', document.getElementById('groupMisc').value);
+                window.location.href = 'guest_details.html';
+            });
+
+            document.getElementById('finalize').addEventListener('click', function() {
+                sessionStorage.setItem('groupMiscInfo', document.getElementById('groupMisc').value);
+                window.location.href = 'thank_you.html';
+            });
+        };
+    </script>
+</body>
+</html>
