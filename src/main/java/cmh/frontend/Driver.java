@@ -102,28 +102,23 @@ public static void intializeFakeTrialData(){
      */
     public static void mainMenu(Scanner s){
         printHeader("Main Menu");
-        System.out.println("1. View Housing Units");
-        System.out.println("2. View Groups");
-        System.out.println("3. View Guests");
-        System.out.println("4. View Users");
-        System.out.println("5. Create User");
-        System.out.println("6. Delete User");
-        System.out.println("7. Update User");
-        System.out.println("8. Log Out");
-
+        User user = UserInteraction.getCurrentlyLoggedInUser();
+        System.out.println("Hello, " + user.getName() + "!\n\nSelect an option:");
+        System.out.println("1. User Tab");
+        System.out.println("2. Guest Tab");
+        System.out.println("3. Group Tab");
+        System.out.println("4. Room Tab");
+        System.out.println("5. Housing Unit Tab");
         System.out.print("Enter a number: ");
         int choice = s.nextInt();
         s.nextLine();
 
         switch (choice) {
-            case 1 -> viewHousingUnits();
-            case 2 -> viewGroups();
-            case 3 -> viewGuests();
-            case 4 -> viewUsers();
-            case 5 -> createUser(s);
-            case 6 -> deleteUser(s);
-            case 7 -> updateUser(s);
-            case 8 -> UserInteraction.logout();
+            case 1 -> userOptions(s);
+            case 2 -> guestOptions(s);
+            case 3 -> groupMenu(s);
+            case 4 -> roomOptions(s);
+            case 5 -> housingUnitOptions(s);
             default -> {
                 System.out.println("Invalid choice.");
             }
@@ -146,6 +141,7 @@ public static void intializeFakeTrialData(){
 
 
     public static void userOptions(Scanner s){
+        clearScreen();
         printHeader("User Options");
         System.out.println("1. Create User");
         System.out.println("2. Delete User");
@@ -174,253 +170,11 @@ public static void intializeFakeTrialData(){
         }
     }
 
-
-
-
-    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
-    //----------------------------------------------------------------------------------------------\\
-    //                                        GUEST MENU                                            \\
-    //----------------------------------------------------------------------------------------------\\
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
-
-
-
-
-
-    public static void guestOptions(Scanner s){
-        printHeader("Guest Options");
-        System.out.println("1. View Guest");
-        System.out.println("2. Add Guest");
-        System.out.println("3. Get Guest");
-        System.out.println("4. Remove Guest");
-        System.out.println("5. Edit Guest");
-        System.out.println("6. Add Guest to Room");
-        System.out.println("7. Remove Guest from Room");
-        System.out.println("8. Check In Guest");
-        System.out.println("9. Check Out Guest");
-        System.out.println("10. Log Out");
-        System.out.println("Leave blank to return to main menu.");
-
-        System.out.print("Enter a number: ");
-        int choice = s.nextInt();
-        s.nextLine();
-
-        switch (choice) {
-
-            case 1 -> viewGuests();
-            //case 2 -> addGuest(s);
-            //case 3 -> getGuest(s);
-            //case 4 -> removeGuest(s);
-            //case 5 -> editGuest(s);
-            //case 6 -> addGuestToRoom(s);
-            //case 7 -> removeGuestFromRoom(s);
-            //case 8 -> checkInGuest(s);
-            //case 9 -> checkOutGuest(s);
-            case 10 -> UserInteraction.logout();
-
-            default -> {
-                System.out.println("Returning to main menu.");
-            }
-        }
-    }
-
-
-
-
-
-    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
-    //----------------------------------------------------------------------------------------------\\
-    //                                        GROUP MENU                                            \\
-    //----------------------------------------------------------------------------------------------\\
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
-
-
-
-
-
-
-    public static void groupMenu(Scanner s){
-        printHeader("Group Options");
-        System.out.println("1. View Groups");
-        System.out.println("2. Create Group");
-        System.out.println("3. Delete Group");
-        System.out.println("4. Delete Group and Guests");
-        System.out.println("5. Update Group");
-        System.out.println("6. Add Guest to Group");
-        System.out.println("7. Remove Guest from Group");
-        System.out.println("8. Clear Group");
-        System.out.println("9. Log Out");
-        System.out.println("Leave blank to return to main menu.");
-
-        System.out.print("Enter a number: ");
-        int choice = s.nextInt();
-        s.nextLine();
-
-        switch (choice) {
-
-            case 1 -> viewGroups();
-            //case 2 -> addGroup(s);
-            //case 3 -> removeGroup(s);
-            //case 4 -> removeGroupAndGuests(s);
-            //case 5 -> editGroup(s);
-            //case 6 -> addGuestToGroup(s);
-            //case 7 -> removeGuestFromGroup(s);
-            //case 8 -> clearGroup(s);
-            case 9 -> UserInteraction.logout();
-
-            default -> {
-                System.out.println("Returning to main menu.");
-            }
-        }
-    }
-
-
-
-
-
-    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
-    //----------------------------------------------------------------------------------------------\\
-    //                                        ROOM MENU                                             \\
-    //----------------------------------------------------------------------------------------------\\
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
-
-
-
-    
-
-    public static void roomOptions(Scanner s){
-        printHeader("Room Options");
-        System.out.println("1. Get Room");
-        System.out.println("2. Remove Room");
-        System.out.println("3. Edit Room");
-        System.out.println("4. Add Room");
-        System.out.println("5. View Room");
-        System.out.println("6. Log Out");
-        System.out.println("Leave blank to return to main menu.");
-
-
-        System.out.print("Enter a number: ");
-        int choice = s.nextInt();
-        s.nextLine();
-
-        switch (choice) {
-
-            //case 1 -> getRoom(s);
-            //case 2 -> removeRoom(s);
-            //case 3 -> editRoom(s);
-            //case 4 -> addRoom(s);
-            //case 5 -> viewRoom(); TODO: Implement viewRoom in RoomController and User interaction classes instead of here
-            case 6 -> UserInteraction.logout();
-
-            default -> {
-                System.out.println("Returning to main menu.");
-            }
-        }
-    }
-
-
-
-
-
-
-    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
-    //----------------------------------------------------------------------------------------------\\
-    //                                     HOUSING UNIT MENU                                        \\
-    //----------------------------------------------------------------------------------------------\\
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
- 
-
-
-
-
-
-    public static void housingUnitOptions(Scanner s){
-        printHeader("Housing Unit Options");
-        System.out.println("1. View Housing Units");
-        System.out.println("2. Create Housing Unit");
-        System.out.println("3. Delete Housing Unit");
-        System.out.println("4. Update Housing Unit");
-        System.out.println("5. Get Housing Unit");
-        System.out.println("6. Log Out");
-        System.out.println("Leave blank to return to main menu.");
-
-        System.out.print("Enter a number: ");
-        int choice = s.nextInt();
-        s.nextLine();
-
-        switch (choice) {
-            case 1 -> viewHousingUnits();
-            //case 2 -> addHousingUnit(s);
-            //case 3 -> removeHousingUnit(s);
-            //case 4 -> editHousingUnit(s);
-            //case 5 -> getHousingUnit(s); TODO: add getHousingUnit to HousingUnitController; currently not implemented
-            case 6 -> UserInteraction.logout();
-
-            default -> {
-                System.out.println("Returning to main menu.");
-            }
-        }
-    }
-
     /**
-     * Displays the details of all housing units.
-     */
-    public static void viewHousingUnits(){
-        clearScreen();
-        printHeader("Housing Units");
-        for(HousingUnit unit : UserInteraction.getHousingUnits()){
-            System.out.println(unit.toStringDetail());
-        }
-
-        returnOptions(new Scanner(System.in));
-    }
-
-    /**
-     * Displays the list of groups and their details.
-     */
-    public static void viewGroups(){
-        clearScreen();
-        printHeader("Groups");
-        for(Group group : UserInteraction.viewGroups()){
-            group.toStringDetail(group);
-            System.out.println("\n\n\n");
-        }
-
-
-        returnOptions(new Scanner(System.in));
-    }
-
-    /**
-     * Displays the list of guests and their details.
-     */
-    public static void viewGuests(){
-        clearScreen();
-        printHeader("Guests");
-        for(Guest guest : UserInteraction.viewGuests()){
-            System.out.println(guest.toString());
-            System.out.println("");
-        }
-        returnOptions(new Scanner(System.in));
-    }
-
-    /**
-     * Displays the list of users and their details.
-     */
-    public static void viewUsers(){
-        clearScreen();
-        printHeader("Users");
-        for(User user : UserInteraction.viewUsers()){
-            System.out.println(user.toString());
-            System.out.println("");
-        }
-        returnOptions(new Scanner(System.in));
-    }
-
-    /**
-     * Creates a new user based on user input.
-     *
-     * @param s the Scanner object used for user input
-     */
+    * Creates a new user based on user input.
+    *
+    * @param s the Scanner object used for user input
+    */
     public static void createUser(Scanner s){
         clearScreen();
         boolean isAdmin = false;
@@ -458,10 +212,10 @@ public static void intializeFakeTrialData(){
     }
 
     /**
-     * Deletes a user based on user input.
-     *
-     * @param s the Scanner object used for user input
-     */
+    * Deletes a user based on user input.
+    *
+    * @param s the Scanner object used for user input
+    */
     public static void deleteUser(Scanner s){
         clearScreen();
         printHeader("Delete User");
@@ -478,10 +232,10 @@ public static void intializeFakeTrialData(){
     }
 
     /**
-     * Updates a user's information based on user input.
-     *
-     * @param s the Scanner object used for user input
-     */
+    * Updates a user's information based on user input.
+    *
+    * @param s the Scanner object used for user input
+    */
     public static void updateUser(Scanner s){
         clearScreen();
         boolean isAdmin = false;
@@ -531,6 +285,414 @@ public static void intializeFakeTrialData(){
 
         returnOptions(s);
     }
+
+    /**
+    * Displays the list of users and their details.
+    */
+    public static void viewUsers(){
+        clearScreen();
+        printHeader("Users");
+        for(User user : UserInteraction.viewUsers()){
+            System.out.println(user.toString());
+            System.out.println("");
+        }
+        returnOptions(new Scanner(System.in));
+    }
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                        GUEST MENU                                            \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+
+
+    public static void guestOptions(Scanner s){
+        clearScreen();
+        printHeader("Guest Options");
+        System.out.println("1. View Guest");
+        System.out.println("2. Add Guest");
+        System.out.println("3. Get Guest");
+        System.out.println("4. Remove Guest");
+        System.out.println("5. Edit Guest");
+        System.out.println("6. Add Guest to Room");
+        System.out.println("7. Remove Guest from Room");
+        System.out.println("8. Check In Guest");
+        System.out.println("9. Check Out Guest");
+        System.out.println("10. Log Out");
+        System.out.println("Leave blank to return to main menu.");
+
+        System.out.print("Enter a number: ");
+        int choice = s.nextInt();
+        s.nextLine();
+
+        switch (choice) {
+
+            case 1 -> viewGuests();
+            //case 2 -> addGuest(s);
+            //case 3 -> getGuest(s);
+            //case 4 -> removeGuest(s);
+            //case 5 -> editGuest(s);
+            //case 6 -> addGuestToRoom(s);
+            //case 7 -> removeGuestFromRoom(s);
+            //case 8 -> checkInGuest(s);
+            //case 9 -> checkOutGuest(s);
+            case 10 -> UserInteraction.logout();
+
+            default -> {
+                System.out.println("Returning to main menu.");
+            }
+        }
+    }
+
+    /**
+     * Displays the list of guests and their details.
+     */
+    public static void viewGuests(){
+        clearScreen();
+        printHeader("Guests");
+        for(Guest guest : UserInteraction.viewGuests()){
+            System.out.println(guest.toString());
+            System.out.println("");
+        }
+        returnOptions(new Scanner(System.in));
+    }
+
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                        GROUP MENU                                            \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+
+
+
+    public static void groupMenu(Scanner s){
+        clearScreen();
+        printHeader("Group Options");
+        System.out.println("1. View Groups");
+        System.out.println("2. Create Group");
+        System.out.println("3. Delete Group");
+        System.out.println("4. Delete Group and Guests");
+        System.out.println("5. Update Group");
+        System.out.println("6. Add Guest to Group");
+        System.out.println("7. Remove Guest from Group");
+        System.out.println("8. Clear Group");
+        System.out.println("9. Log Out");
+        System.out.println("Leave blank to return to main menu.");
+
+        System.out.print("Enter a number: ");
+        int choice = s.nextInt();
+        s.nextLine();
+
+        switch (choice) {
+
+            case 1 -> viewGroups();
+            //case 2 -> addGroup(s);
+            //case 3 -> removeGroup(s);
+            //case 4 -> removeGroupAndGuests(s);
+            //case 5 -> editGroup(s);
+            //case 6 -> addGuestToGroup(s);
+            //case 7 -> removeGuestFromGroup(s);
+            //case 8 -> clearGroup(s);
+            case 9 -> UserInteraction.logout();
+
+            default -> {
+                System.out.println("Returning to main menu.");
+            }
+        }
+    }
+
+        /**
+     * Displays the list of groups and their details.
+     */
+    public static void viewGroups(){
+        clearScreen();
+        printHeader("Groups");
+        for(Group group : UserInteraction.viewGroups()){
+            group.toStringDetail(group);
+            System.out.println("\n\n\n");
+        }
+
+
+        returnOptions(new Scanner(System.in));
+    }
+
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                        ROOM MENU                                             \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
+
+
+    
+
+    public static void roomOptions(Scanner s){
+        clearScreen();
+        printHeader("Room Options");
+        System.out.println("1. Find Room");
+        System.out.println("2. Remove Room");
+        System.out.println("3. Edit Room");
+        System.out.println("4. Add Room");
+        System.out.println("5. View Room Database");
+        System.out.println("6. Log Out");
+        System.out.println("Leave blank to return to main menu.");
+
+
+        System.out.print("Enter a number: ");
+        int choice = s.nextInt();
+        s.nextLine();
+
+        switch (choice) {
+
+            case 1 -> viewRoom(s);
+            case 2 -> removeRoom(s);
+            case 3 -> editRoom(s);
+            case 4 -> addRoom(s);
+            case 5 -> viewRoomDatabase();
+            case 6 -> UserInteraction.logout();
+
+            default -> {
+                System.out.println("Returning to main menu.");
+            }
+        }
+    }
+
+    /**
+     * Search for a room by room prefix and number.
+     */
+    public static void viewRoom(Scanner s){
+        clearScreen();
+        printHeader("View Room");
+        System.out.print("Enter room prefix: ");
+        String prefix = s.nextLine();
+        System.out.print("Enter room number: ");
+        int number = s.nextInt();
+        s.nextLine();
+        Room room = UserInteraction.getRoom(number, prefix); //TODO: swap these parameters in the controller method. 
+                                                             // Given the prefix T and room number 232 the params should look 
+                                                             // like T232 instead of 232T
+        if(room == null){
+            System.out.println("Room not found.");
+        } else {
+            System.out.println(UserInteraction.viewRoom(room.getRoomNumber(), room.getPrefix(), true)); //TODO: Make this output easy to read
+        }
+
+        returnOptions(s);
+    }
+
+    /**
+     * Removes a room from the system.
+     */
+
+    public static void removeRoom(Scanner s){
+        clearScreen();
+        printHeader("Remove Room");
+        System.out.print("Enter room prefix: ");
+        String prefix = s.nextLine();
+        System.out.print("Enter room number: ");
+        int number = s.nextInt();
+        s.nextLine();
+        boolean success = UserInteraction.removeRoom(number, prefix);
+        if(success){
+            System.out.println("Room removed successfully.");
+        } else {
+            System.out.println("Failed to remove room.");
+        }
+
+        returnOptions(s);
+    }
+
+    /**
+     * Edits a room's information.
+     */
+
+    public static void editRoom(Scanner s){
+        clearScreen();
+        String currPrefix;
+        int currNumber;
+        printHeader("Edit Room");
+        System.out.print("Enter room prefix: ");
+        String prefix = s.nextLine();
+        System.out.print("Enter room number: ");
+        int number = s.nextInt();
+        s.nextLine();
+        Room room = UserInteraction.getRoom(number, prefix);
+        if(room == null){
+            System.out.println("Room not found.");
+            returnOptions(s);
+            return;
+        } else {
+            currPrefix = room.getPrefix();
+            currNumber = room.getRoomNumber();
+        }
+        System.out.print("Enter new room prefix: ");
+        String newPrefix = s.nextLine();
+        System.out.print("Enter new room number: ");
+        int newNumber = s.nextInt();
+        s.nextLine();
+        System.out.print("Enter new capacity: ");
+        int capacity = s.nextInt();
+        s.nextLine();
+        System.out.print("Enter new isOccupied: ");
+        boolean isOccupied = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter new isReserved: ");
+        boolean isReserved = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter new isHandicap: ");
+        boolean isHandicap = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter new isPrivate: ");
+        boolean isPrivate = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter new isAvailable: ");
+        boolean isAvailable = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter new key: ");
+        String key = s.nextLine();
+        boolean success = UserInteraction.editRoom(currPrefix, currNumber, newPrefix, newNumber, capacity, isOccupied, isReserved, isHandicap, isPrivate, isAvailable, key);
+        if(success){
+            System.out.println("Room updated successfully.");
+        } else {
+            System.out.println("Failed to update room.");
+        }
+
+        returnOptions(s);
+    }
+
+    /**
+     * Adds a room to the system.
+     */
+
+    public static void addRoom(Scanner s){
+        clearScreen();
+        printHeader("Add Room");
+        System.out.print("Enter room prefix: ");
+        String prefix = s.nextLine();
+        System.out.print("Enter room number: ");
+        int number = s.nextInt();
+        s.nextLine();
+        System.out.print("Enter capacity: ");
+        int capacity = s.nextInt();
+        s.nextLine();
+        System.out.print("Enter isOccupied: ");
+        boolean isOccupied = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter isReserved: ");
+        boolean isReserved = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter isHandicap: ");
+        boolean isHandicap = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter isPrivate: ");
+        boolean isPrivate = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter isAvailable: ");
+        boolean isAvailable = s.nextBoolean();
+        s.nextLine();
+        System.out.print("Enter key: ");
+        String key = s.nextLine();
+        boolean success = UserInteraction.addRoom(prefix, number, capacity, isOccupied, isReserved, isHandicap, isPrivate, isAvailable, key);
+        if(success){
+            System.out.println("Room added successfully.");
+        } else {
+            System.out.println("Failed to add room.");
+        }
+
+        returnOptions(s);
+    }
+
+    /**
+     * Displays the list of rooms and their details.
+     */
+
+    public static void viewRoomDatabase(){
+        clearScreen();
+        printHeader("Rooms");
+        UserInteraction.viewRoomDatabase();
+        returnOptions(new Scanner(System.in));
+    }
+
+
+
+
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                     HOUSING UNIT MENU                                        \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+ 
+
+
+
+
+
+    public static void housingUnitOptions(Scanner s){
+        clearScreen();
+        printHeader("Housing Unit Options");
+        System.out.println("1. View Housing Units");
+        System.out.println("2. Create Housing Unit");
+        System.out.println("3. Delete Housing Unit");
+        System.out.println("4. Update Housing Unit");
+        System.out.println("5. Get Housing Unit");
+        System.out.println("6. Log Out");
+        System.out.println("Leave blank to return to main menu.");
+
+        System.out.print("Enter a number: ");
+        int choice = s.nextInt();
+        s.nextLine();
+
+        switch (choice) {
+            case 1 -> viewHousingUnits();
+            //case 2 -> addHousingUnit(s);
+            //case 3 -> removeHousingUnit(s);
+            //case 4 -> editHousingUnit(s);
+            //case 5 -> getHousingUnit(s); TODO: add getHousingUnit to HousingUnitController; currently not implemented
+            case 6 -> UserInteraction.logout();
+
+            default -> {
+                System.out.println("Returning to main menu.");
+            }
+        }
+    }
+
+    /**
+     * Displays the details of all housing units.
+     */
+    public static void viewHousingUnits(){
+        clearScreen();
+        printHeader("Housing Units");
+        for(HousingUnit unit : UserInteraction.getHousingUnits()){
+            System.out.println(unit.toStringDetail());
+        }
+
+        returnOptions(new Scanner(System.in));
+    }
+
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\\
+    //----------------------------------------------------------------------------------------------\\
+    //                                       HELPER METHODS                                         \\
+    //----------------------------------------------------------------------------------------------\\
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\
+
 
 	/**
      * From CMC By: Peter Ohmann

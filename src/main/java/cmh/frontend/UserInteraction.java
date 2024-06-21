@@ -419,6 +419,26 @@ public static boolean createUser(String username, String password, String email,
         return false;
     }
 
+    public static String viewRoom(int roomNumber, String prefix, boolean detail) {
+        if(user && !detail) {
+            return RoomController.viewRoom(roomNumber, prefix, detail);
+        } 
+        else if(admin && detail) {
+            return RoomController.viewRoom(roomNumber, prefix, detail);
+        }
+        return null;
+    }
+
+    public static boolean viewRoomDatabase() {
+        if(admin) {
+            for(Room room : Room.getRooms()) {
+                System.out.println(room.toString());
+            }
+            return true;
+        }
+        return false;
+    }
+
 
 
 
