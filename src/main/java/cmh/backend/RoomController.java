@@ -56,11 +56,11 @@ public class RoomController {
         return false;
     }
 
-    public String viewRoom(int roomNumber, String prefix, boolean detail) {
+    public static String viewRoom(int roomNumber, String prefix, boolean detail) {
         Room room = getRoom(roomNumber, prefix);
         if (room != null) {
             if (detail) {
-                return room.toString();
+                return room.toStringDetailed();
             }
             return room.toString();
         }

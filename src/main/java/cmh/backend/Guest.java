@@ -35,10 +35,7 @@ public class Guest {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.otherInfo=otherInfo;
-<<<<<<< Updated upstream
         this.isCheckedIn = false;
-=======
->>>>>>> Stashed changes
         allGuests.add(this);
     }
 
